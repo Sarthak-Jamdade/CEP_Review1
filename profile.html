@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <meta charset="UTF-8">
+    <title>Profile Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --bg: #0e0f13;
+            --panel: #15161c;
+            --card: #1b1d25;
+            --border: #262833;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #6366f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Inter, Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        h1  {
+            margin-bottom: 16px;
+        }
+
+        /* ===== SIDEBAR ===== */
+
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #0f172a, #020617);
+            padding: 25px 20px;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.6);
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar .profile {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .sidebar .profile i {
+            font-size: 60px;
+            color: #22d3ee;
+        }
+
+        .sidebar .profile h4 {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .sidebar .profile p {
+            font-size: 13px;
+            color: #9ca3af;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #cbd5f5;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar ul li i {
+            font-size: 16px;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+            transform: translateX(6px);
+        }
+
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            flex: 1;
+        }
+
+        #menuBtn {
+            display: none;
+        }
+
+
+        /* ===== GRID ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1.3fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: 14px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== PERSONAL INFO ===== */
+        .info-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .info-row div {
+            font-size: 14px;
+        }
+
+        .label {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* ===== DOCUMENTS ===== */
+        .docs {
+            display: flex;
+            flex-wrap: wrap;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .doc {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        /* ===== LOWER GRID ===== */
+        .lower {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr 1fr;
+            gap: 20px;
+        }
+
+        /* ===== PROFILE CARD ===== */
+        .profile-card {
+            text-align: center;
+        }
+
+        .avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            margin: auto;
+            margin-bottom: 15px;
+        }
+
+        /* ===== TEAM LIST ===== */
+        .team li {
+            list-style: none;
+            padding: 10px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        /* ===== CHECKLIST ===== */
+        .checklist li {
+            list-style: none;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .checklist li::before {
+            content: "✔";
+            color: #22c55e;
+            margin-right: 8px;
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                /* display: block; */
+                margin-left: 220px;
+                padding: 20px;
+            }
+
+            #menuBtn {
+                display: block;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+                /* Stack cards */
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+                /* Stack personal info */
+            }
+
+            h1 {
+                margin-bottom: 12px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+
+            body {
+                flex-direction: column;
+            }
+
+            /* Hide sidebar by default */
+            .sidebar {
+                position: fixed;
+                left: -260px;
+                top: 0;
+                width: 250px;
+                height: 100%;
+                transition: 0.3s ease;
+                z-index: 1000;
+            }
+
+            /* When active (you can toggle later with JS) */
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 15px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-row {
+                grid-template-columns: 1fr;
+            }
+
+            .docs {
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
+            z-index: 900;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #020617;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease;
+        }
+
+        #loader img {
+            width: 140px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Loader -->
+    <div id="loader">
+        <img src="Login_Images/Ai-powered marketing tools abstract.gif" alt="Loading...">
+    </div>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="profile">
+            <i class="fas fa-user-circle"></i>
+            <h4 id="name">Student</h4>
+            <p>Dashboard</p>
+        </div>
+
+        <ul>
+            <li id="Dashboard"><i class="fas fa-home"></i>Dashboard</li>
+            <li class="active"><i class="fas fa-user"></i> <a href="profile.html"
+                    style="color: white; text-decoration: none;">Profile</a></li>
+            <li><i class="fas fa-calendar-check"></i> Attendance</li>
+            <li id="ApplyLeave"><i class="fas fa-file-alt"></i> Apply Leave</li>
+            <li id="Notifications"><i class="fas fa-bell"></i> Notifications</li>
+            <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+    </aside>
+
+
+    <!-- MAIN -->
+    <div class="main">
+        <button id="menuBtn" class="primary-btn" style="width:auto; padding:8px 14px; margin-bottom:20px;">☰ Menu</button>
+
+        <h1>Profile</h1>
+
+        <!-- TOP GRID -->
+        <div class="grid">
+
+            <div class="card">
+                <h3>Personal Information</h3>
+
+                <div class="info-row">
+                    <div>
+                        <span class="label">Full name</span><br>
+                        <span id="student_name">Sarthak Jamdade</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Date of birth</span><br>
+                        <span id="dob">Loading...</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Gender</span><br>
+                        <span id="gender">Loading...</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Phone</span><br>
+                        <span id="phone">Loading...</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Email</span><br>
+                        <span id="email">Loading...</span>
+                    </div>
+
+                    <div>
+                        <span class="label">Address</span><br>
+                        <span id="address">Loading...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Parents Information</h3>
+
+                <div class="info-row">
+                    <div>
+                        <span class="label">Father Name</span><br>
+                        <span id="father_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Father Phone</span><br>
+                        <span id="father_phone"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Mother Name</span><br>
+                        <span id="mother_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Mother Phone</span><br>
+                        <span id="mother_phone"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Acedemic Information of 10th Std</h3>
+
+                <div class="info-row">
+                    <div>
+                        <span class="label">School Name</span><br>
+                        <span id="school_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Board Name</span><br>
+                        <span id="board_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Year Of Passing</span><br>
+                        <span id="year_of_passing"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Percentage</span><br>
+                        <span id="percentage"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Acedemic Information of 12th Std</h3>
+
+                <div class="info-row">
+                    <div>
+                        <span class="label">College Name</span><br>
+                        <span id="college_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">University Name</span><br>
+                        <span id="university_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Year Of Passing</span><br>
+                        <span id="year_of_passing_12th"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Percentage</span><br>
+                        <span id="percentage_12th"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="width: 100%;">
+                <h3>Documents</h3>
+
+                <div class="docs">
+                    <div class="docs" id="documents">
+                        <p class="label">Loading documents...</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Curent Course Information</h3>
+
+                <div class="info-row">
+                    <div>
+                        <span class="label">Course Name</span><br>
+                        <span id="course_name"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">PRN</span><br>
+                        <span id="prn"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Graduation Year</span><br>
+                        <span id="graduation_year"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">First Year Cgpa</span>
+                        <span id="First_Year_Grade"></span>
+                    </div>
+
+                    <div>
+                        <span class="label">Second Year Cgpa</span>
+                        <span id="First_Year_Grade"></span>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    </div>
+
+    <script>
+
+
+        // document.getElementById("menuBtn").addEventListener("click", function () {
+        //     document.querySelector(".sidebar").classList.toggle("active");
+        // });
+
+        const menuBtn = document.getElementById("menuBtn");
+        const SideBar = document.querySelector(".sidebar");
+        const overlay = document.getElementById("overlay");
+
+        menuBtn.addEventListener("click", () => {
+            SideBar.classList.toggle("active");
+            overlay.classList.toggle("active");
+        })
+
+        overlay.addEventListener("click", () => {
+            SideBar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const email = localStorage.getItem("email");
+            if (!email) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            const MIN_LOADING_TIME = 1500;
+            const startTime = Date.now();
+
+            /* ==============================
+               API REQUESTS
+            ============================== */
+
+            const userRequest = fetch("http://127.0.0.1:5000/get-user", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            }).then(res => res.json());
+
+            const academicRequest = fetch("http://127.0.0.1:5000/get-academics", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            }).then(res => res.json());
+
+            const documentRequest = fetch("http://127.0.0.1:5000/get-documents", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email })
+            }).then(res => res.json());
+
+            /* ==============================
+               WAIT FOR ALL DATA
+            ============================== */
+
+            Promise.all([userRequest, academicRequest, documentRequest])
+                .then(([user, acad, docs]) => {
+
+                    /* ===== USER DATA ===== */
+                    if (!user.message) {
+
+                        setText("name", user.name);
+                        setText("email", user.email);
+                        setText("phone", user.phone);
+                        setText("dob", user.dob);
+                        setText("gender", user.gender);
+                        setText("address", user.address);
+
+                        setText("father_name", user.father_name);
+                        setText("father_phone", user.father_phone);
+                        setText("mother_name", user.mother_name);
+                        setText("mother_phone", user.mother_phone);
+                    }
+
+                    /* ===== ACADEMICS ===== */
+                    if (acad && Object.keys(acad).length !== 0) {
+
+                        setText("school_name", acad.school10);
+                        setText("board_name", acad.board10);
+                        setText("year_of_passing", acad.year10);
+                        setText("percentage", acad.cgpa10);
+
+                        setText("college_name", acad.school12);
+                        setText("university_name", acad.board12);
+                        setText("year_of_passing_12th", acad.year12);
+                        setText("percentage_12th", acad.cgpa12);
+
+                        setText("course_name", acad.course);
+                        setText("prn", acad.prn);
+                        setText("graduation_year", acad.graduation_year);
+                    }
+
+                    /* ===== DOCUMENTS ===== */
+                    const container = document.getElementById("documents");
+                    container.innerHTML = "";
+
+                    if (!docs || docs.length === 0) {
+                        container.innerHTML = "<p class='label'>No documents uploaded</p>";
+                    } else {
+
+                        const labels = {
+                            citizenship: "Citizenship Certificate",
+                            passport: "Passport",
+                            election_card: "Election Card",
+                            national_id: "National ID",
+                            passport_photo: "Passport Photo",
+                            marksheet_10: "10th Marksheet",
+                            marksheet_12: "12th Marksheet",
+                            transcript: "Transcript",
+                            migration_certificate: "Migration Certificate"
+                        };
+
+                        docs.forEach(doc => {
+
+                            const div = document.createElement("div");
+                            div.className = "doc";
+                            div.style.cursor = "pointer";
+
+                            const label = labels[doc.doc_type] || doc.doc_type;
+
+                            div.innerHTML = `
+                        <strong>📄 ${label}</strong><br>
+                        <span class="label">Uploaded: ${doc.uploaded_at}</span>
+                    `;
+
+                            div.onclick = () => {
+                                window.open(
+                                    `http://127.0.0.1:5000/open-document/${doc.id}`,
+                                    "_blank"
+                                );
+                            };
+
+                            container.appendChild(div);
+                        });
+                    }
+
+                    /* ===== HIDE LOADER SMOOTHLY ===== */
+                    const elapsed = Date.now() - startTime;
+                    const remaining = Math.max(0, MIN_LOADING_TIME - elapsed);
+
+                    setTimeout(() => {
+                        const loader = document.getElementById("loader");
+                        loader.style.opacity = "0";
+                        setTimeout(() => loader.style.display = "none", 600);
+                    }, remaining);
+
+                })
+                .catch(err => {
+                    console.error("Error loading profile:", err);
+                    document.getElementById("loader").style.display = "none";
+                });
+
+        });
+
+        /* ==============================
+           HELPER FUNCTION
+           Prevents undefined text
+        ============================== */
+        function setText(id, value) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.innerText = value || "-";
+            }
+        }
+
+        const Notifications = document.getElementById("Notifications");
+        const ApplyLeave = document.getElementById("ApplyLeave");
+        const Dashboard = document.getElementById("Dashboard");
+
+
+        Notifications.addEventListener("click",()=>{
+            window.location.href = "user_notifications.html";
+        });
+
+        ApplyLeave.addEventListener("click",()=>{
+            window.location.href = "LeaveA.html";
+        });
+
+        Dashboard.addEventListener("click",()=>{
+            window.location.href = "user_dashboard.html";
+        });
+
+        /* ==============================
+           LOGOUT
+        ============================== */
+        function logout() {
+            localStorage.removeItem("email");
+            window.location.href = "login.html";
+        }
+    </script>
+
+
+</body>
+
+</html>

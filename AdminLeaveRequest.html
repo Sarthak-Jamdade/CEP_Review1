@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Leave Requests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0e0f13;
+            --panel: #15161c;
+            --card: #1b1d25;
+            --border: #262833;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #facc15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #020617, #0f172a);
+            padding: 25px 20px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        /* REQUEST CARD */
+        .request-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--warning);
+        }
+
+        .approved {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        .rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        /* DETAILS GRID */
+        .details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .details span {
+            color: var(--muted);
+        }
+
+        /* APPROVAL PROGRESS */
+        .progress-box {
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+
+        .admin-status {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .admin-status div {
+            background: var(--card);
+            padding: 6px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        /* BUTTONS */
+        .actions {
+            margin-top: 10px;
+        }
+
+        .actions button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 13px;
+        }
+
+        .approve-btn {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        .reject-btn {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+
+        .status.approved {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .status.rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li id="UserDashboard"><i class="fas fa-chart-line"></i> Dashboard</li>
+            <li class="active" id="LeaveReq"><i class="fas fa-calendar-check"></i> Leave Requests</li>
+            <li><i class="fas fa-users" id="Users"></i> Users</li>
+            <li><i class="fas fa-bell" id="Notifications"></i> Notifications</li>
+            <li><i class="fas fa-sign-out-alt" id="Logout"></i> Logout</li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1>Leave Requests</h1>
+
+        <div class="request-card">
+
+            <div class="actions" id="action-buttons-1">
+                <button class="approve-btn" onclick="handleAction(1,'APPROVED')">Approve</button>
+                <button class="reject-btn" onclick="handleAction(1,'REJECTED')">Reject</button>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        const Dashboard = document.getElementById("UserDashboard");
+        const LeaveReq = document.getElementById("LeaveReq");
+        const Users = document.getElementById("Users");
+        const Notifications = document.getElementById("Notifications");
+        const Logout = document.getElementById("Logout");
+
+
+        Dashboard.addEventListener("click", () => {
+            window.location.href = "admin_dashboard.html";
+        });
+
+        Users.addEventListener("click", () => {
+            window.location.href = "Admin_Users.html";
+        });
+
+        LeaveReq.addEventListener("click", () => {
+            window.location.href = "AdminLeaveRequest.html";
+        });
+
+        Notifications.addEventListener("click", () => {
+            window.location.href = "D:\CEP\Admin_Notications.html";
+        });
+
+        //Log Out
+        Logout.addEventListener("click", () => {
+            localStorage.removeItem("email");
+            window.location.href = "login.html";
+        });
+
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const adminEmail = localStorage.getItem("email");
+
+            if (!adminEmail) {
+                window.location.href = "login.html";
+                return;
+            }
+
+            loadLeaves();
+
+            function loadLeaves() {
+
+                fetch("http://127.0.0.1:5000/get-leaves")
+                    .then(res => res.json())
+                    .then(data => {
+
+                        const container = document.querySelector(".main");
+                        container.innerHTML = "<h1>Leave Requests</h1>";
+
+                        if (!data || data.length === 0) {
+                            container.innerHTML += "<p>No leave requests found.</p>";
+                            return;
+                        }
+
+                        data.forEach(leave => {
+
+                            const statusClass =
+                                leave.status === "APPROVED" ? "approved" :
+                                    leave.status === "REJECTED" ? "rejected" :
+                                        "pending";
+
+                            const statusText =
+                                leave.status === "PENDING"
+                                    ? `Pending (${leave.total_approvals} Approved)`
+                                    : leave.status;
+
+                            const card = document.createElement("div");
+                            card.className = "request-card";
+                            card.setAttribute("data-id", leave.id);
+                            card.innerHTML = `
+                <div class="request-header">
+                    <div>
+                        <h3>${leave.student_name}</h3>
+                        <small>Room: ${leave.room_no}</small>
+                    </div>
+                    <span class="status ${statusClass}">
+                        ${statusText}
+                    </span>
+                </div>
+
+                <div class="details">
+                    <div><span>From:</span> ${leave.from_date}</div>
+                    <div><span>To:</span> ${leave.to_date}</div>
+                    <div><span>Course/Year:</span> ${leave.course_year}</div>
+                    <div><span>Reason:</span> ${leave.reason}</div>
+                </div>
+
+                ${leave.status === "PENDING"
+                                    ? `
+                    <div class="actions">
+                        <button class="approve-btn"
+                            onclick="approveLeave(${leave.id}, 'APPROVED')">
+                            Approve
+                        </button>
+                        <button class="reject-btn"
+                            onclick="approveLeave(${leave.id}, 'REJECTED')">
+                            Reject
+                        </button>
+                    </div>
+                    `
+                                    : ""
+                                }
+                `;
+
+                            container.appendChild(card);
+                        });
+
+                    });
+            }
+
+        });
+
+        function approveLeave(id, action) {
+
+    const adminEmail = localStorage.getItem("email");
+
+    fetch("http://127.0.0.1:5000/approve-leave", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            leave_id: id,
+            email: adminEmail,
+            action: action
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        alert(data.message);
+
+        // 🔥 Find exact card using data-id
+        const card = document.querySelector(`.request-card[data-id="${id}"]`);
+        if (!card) return;
+
+        // Remove action buttons
+        const actionsDiv = card.querySelector(".actions");
+        if (actionsDiv) actionsDiv.remove();
+
+        // Update status badge
+        const statusSpan = card.querySelector(".status");
+
+        if (action === "APPROVED") {
+            statusSpan.textContent = "APPROVED";
+            statusSpan.className = "status approved";
+        } else {
+            statusSpan.textContent = "REJECTED";
+            statusSpan.className = "status rejected";
+        }
+
+        // 🔥 UPDATE DASHBOARD NUMBERS
+        updateDashboardStats();
+
+    });
+}
+
+
+
+    </script>
+
+</body>
+
+</html>

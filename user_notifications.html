@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student - Notifications</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0e0f13;
+            --panel: #15161c;
+            --border: #262833;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #facc15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #020617, #0f172a);
+            padding: 25px 20px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        /* NOTIFICATION CARD */
+        .notification {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 14px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+
+        .notification:hover {
+            background: #1f2937;
+        }
+
+        .notification-left {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+        .success {
+            color: var(--success);
+        }
+
+        .warning {
+            color: var(--warning);
+        }
+
+        .danger {
+            color: var(--danger);
+        }
+
+        .info {
+            color: var(--accent);
+        }
+
+        .notification-content h4 {
+            font-size: 15px;
+        }
+
+        .notification-content p {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .time {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .unread {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            margin-left: 10px;
+            display: inline-block;
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>Student Panel</h2>
+        <ul>
+            <li id="Dashboard"><i class="fas fa-home"></i>Dashboard</li>
+            <li><i class="fas fa-user"></i> <a href="profile.html"
+                    style="color: white; text-decoration: none;">Profile</a></li>
+            <li><i class="fas fa-calendar-check"></i> Attendance</li>
+            <li id="ApplyLeave"><i class="fas fa-file-alt"></i> Apply Leave</li>
+            <li id="Notifications" class="active"><i class="fas fa-bell"></i> Notifications</li>
+            <li onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1>My Notifications</h1>
+
+        <div id="notificationContainer">
+            <!-- Notifications will load here -->
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+
+            const email = localStorage.getItem("email");
+
+            if (!email) {
+                alert("Please login first");
+                window.location.href = "login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch("http://127.0.0.1:5000/get-notifications", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email: email })
+                });
+
+                const notifications = await response.json();
+                const container = document.getElementById("notificationContainer");
+                container.innerHTML = "";
+
+                if (!notifications || notifications.length === 0) {
+                    container.innerHTML = "<p>No notifications yet.</p>";
+                    return;
+                }
+
+                notifications.forEach(note => {
+
+                    let iconClass = "info";
+                    let icon = "fa-bell";
+
+                    const msg = note.message.toLowerCase();
+
+                    if (msg.includes("fully approved")) {
+                        iconClass = "success";
+                        icon = "fa-thumbs-up";
+                    }
+                    else if (msg.includes("approved")) {
+                        iconClass = "success";
+                        icon = "fa-check-circle";
+                    }
+                    else if (msg.includes("rejected")) {
+                        iconClass = "danger";
+                        icon = "fa-times-circle";
+                    }
+                    else if (msg.includes("leave")) {
+                        iconClass = "warning";
+                        icon = "fa-calendar-plus";
+                    }
+
+                    container.innerHTML += `
+                <div class="notification">
+                    <div class="notification-left">
+                        <div class="icon ${iconClass}">
+                            <i class="fas ${icon}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>
+                                ${note.message}
+                                ${note.is_read == 0 ? '<span class="unread"></span>' : ''}
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="time">${note.created_at}</div>
+                </div>
+            `;
+                });
+
+            } catch (error) {
+                console.error("Error loading notifications:", error);
+            }
+        });
+
+        const Dashboard = document.getElementById("Dashboard");
+        const ApplyLeave = document.getElementById("ApplyLeave");
+        const Notifications = document.getElementById("Notifications");
+
+        Dashboard.addEventListener("click",()=>{
+            window.location.href = "user_dashboard.html";
+        })
+
+        ApplyLeave.addEventListener("click",()=>{
+            window.location.href = "LeaveA.html";
+        })
+
+        Notifications.addEventListener("click",()=>{
+            window.location.href = "user_notifications.html";
+        })
+
+
+        function logout() {
+            localStorage.removeItem("email");
+            window.location.href = "login.html";
+        }
+    </script>
+
+</body>
+
+</html>

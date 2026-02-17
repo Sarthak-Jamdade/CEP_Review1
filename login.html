@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Login</title>
+
+   <style>
+      * {
+         box-sizing: border-box;
+      }
+
+      body {
+         margin: 0;
+         min-height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         font-family: Arial, sans-serif;
+         overflow-x: hidden;
+         padding: 20px;
+      }
+
+      /* Background Video */
+      .bg-video {
+         position: fixed;
+         inset: 0;
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+         z-index: -2;
+      }
+
+      body::before {
+         content: "";
+         position: fixed;
+         inset: 0;
+         background: rgba(0, 0, 0, 0.55);
+         z-index: -1;
+      }
+
+      #GlobalConnect {
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         flex-direction: column;
+         padding: 12px 30px;
+         position: relative;
+         top: -50px;
+      }
+
+      #GlobalConnect h4{
+         font-size: 26px;
+         color: black;
+         text-align: center;
+      }
+
+      #GlobalConnect p {
+         line-height: 12px;
+         position: absolute;
+         bottom: 8px;
+      }
+
+      .box {
+         width: 100%;
+         max-width: 500px;
+         /* Bigger on desktop */
+         padding: 50px 40px;
+         /* More space inside */
+         background: white;
+         border-radius: 18px;
+         box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      }
+
+
+      h2 {
+         text-align: center;
+         margin-bottom: 25px;
+         font-size: 22px;
+      }
+
+      input {
+         width: 100%;
+         padding: 14px;
+         margin-bottom: 18px;
+         border: 1px solid #139243;
+         border-radius: 8px;
+         font-size: 15px;
+         outline: none;
+      }
+
+      input:focus {
+         border-color: #03e9f4;
+      }
+
+      button {
+         width: 100%;
+         padding: 14px;
+         background: #03e9f4;
+         border: none;
+         border-radius: 8px;
+         cursor: pointer;
+         font-weight: bold;
+         font-size: 15px;
+      }
+
+      button:hover {
+         opacity: 0.9;
+      }
+
+      p {
+         text-align: center;
+         font-size: 14px;
+      }
+
+      a {
+         color: #03e9f4;
+         text-decoration: none;
+         font-weight: 600;
+      }
+
+      /* 📱 Mobile & Tablet Responsive */
+      @media (max-width: 768px) {
+
+         body {
+            padding: 0;
+            /* Remove side spacing completely */
+         }
+
+         .box {
+            width: 100%;
+            max-width: 100%;
+            min-height: 30vh;
+            /* Full height look */
+            border-radius: 0;
+            /* Edge-to-edge style */
+            padding: 60px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 0 10px;
+         }
+      }
+
+
+      @media (max-width: 400px) {
+
+         .box {
+            padding: 25px 15px;
+         }
+
+         h2 {
+            font-size: 18px;
+         }
+
+         input {
+            font-size: 13px;
+         }
+
+         button {
+            font-size: 13px;
+         }
+      }
+   </style>
+
+
+</head>
+
+<body>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- Background Video -->
+   <video class="bg-video" autoplay muted loop>
+      <source src="Login_Images/VID-20260211-WA0000.mp4" type="video/mp4">
+   </video>
+
+   <div class="box">
+      <div id="GlobalConnect">
+         <h4>StudentLink Global</h4>
+         <p>(One Platform for All International Students)</p>
+      </div>
+      <form id="loginForm">
+
+         <input id="email" type="email" placeholder="Email" required>
+         <input id="password" type="password" placeholder="Password" required>
+
+         <button>Login</button>
+
+         <p id="msg"></p>
+
+         <p>
+            Don't have account?
+            <a href="signup.html">Create Account</a>
+         </p>
+
+      </form>
+
+   </div>
+
+   <!-- <script>
+      document.getElementById("loginForm").addEventListener("submit", function (e) {
+         e.preventDefault();
+
+         fetch("http://127.0.0.1:5000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+               email: email.value,
+               password: password.value
+            })
+         })
+            .then(res => res.json())
+            .then(data => {
+               if (data.status == "success") {
+                  localStorage.setItem("email", email.value);
+
+                  if (data.role == "ADMIN")
+                     window.location = "admin_dashboard.html";
+                  else
+                     window.location = "user_dashboard.html";
+               }
+               else {
+                  msg.innerText = "Invalid Login";
+               }
+            });
+      });
+   </script> -->
+   <script>
+      const form = document.getElementById("loginForm");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const msg = document.getElementById("msg");
+
+      form.addEventListener("submit", function (e) {
+         e.preventDefault();
+
+         msg.innerText = "Logging in...";
+         msg.style.color = "black";
+
+         fetch("http://127.0.0.1:5000/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+               email: emailInput.value.trim(),
+               password: passwordInput.value.trim()
+            })
+         })
+            .then(res => res.json())
+            .then(data => {
+               if (data.status === "success") {
+                  localStorage.setItem("email", emailInput.value);
+
+                  if (data.role === "ADMIN")
+                     window.location.href = "admin_dashboard.html";
+                  else
+                     window.location.href = "user_dashboard.html";
+               } else {
+                  msg.innerText = "Invalid email or password";
+                  msg.style.color = "red";
+               }
+            })
+            .catch(error => {
+               msg.innerText = "Server error. Please try again.";
+               msg.style.color = "red";
+               console.error(error);
+            });
+      });
+   </script>
+
+</body>
+
+</html>

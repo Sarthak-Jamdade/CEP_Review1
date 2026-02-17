@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0e0f13;
+            --panel: #15161c;
+            --card: #1b1d25;
+            --border: #262833;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --warning: #facc15;
+            --success: #22c55e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #020617, #0f172a);
+            padding: 25px 20px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .stat-card span {
+            font-size: 32px;
+            font-weight: bold;
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* RECENT ACTIVITY */
+        .card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+        }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .pending {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--warning);
+        }
+
+        .approved {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        /* @media(max-width:900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        } */
+
+        /* =====================================
+   TABLET RESPONSIVE
+===================================== */
+        @media (max-width: 1024px) {
+
+            .sidebar {
+                width: 220px;
+            }
+
+            .content {
+                margin-left: 220px;
+                padding: 25px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            }
+
+        }
+
+        #menuToggle {
+            display: none;
+        }
+
+
+        /* =====================================
+   MOBILE RESPONSIVE
+===================================== */
+        @media (max-width: 768px) {
+
+            /* Sidebar */
+            .sidebar {
+                position: fixed;
+                top: 0;
+                left: -240px;
+                width: 240px;
+                height: 100%;
+                padding: 32px 0;
+                overflow-y: auto;
+                z-index: 1000;
+                transition: 0.3s ease;
+            }
+
+            #menuToggle {
+                display: block;
+            }
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            /* Content full width
+            .content {
+                margin-left: 0;
+                padding: 20px;
+            } */
+
+            /* Stats stacked */
+            /* .stats {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            } */
+
+            /* Grid stacked */
+            /* .grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            } */
+
+            /* .card.full {
+                grid-column: span 1;
+            } */
+
+            /* Profile section clean */
+            /* .sidebar .profile {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .sidebar .profile i {
+                font-size: 55px;
+            } */
+
+            /* .sidebar .profile h4 {
+                font-size: 16px;
+                margin-top: 10px;
+                padding: 0;
+            }
+
+            .sidebar ul li {
+                padding: 12px 10px;
+                font-size: 14px;
+            } */
+
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            /*Here Inset do*/
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(3px);
+            z-index: 900;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay" id="overlay"></div>
+    <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li class="active" id="Dashboard"><i class="fas fa-chart-line"></i> Dashboard</li>
+            <li id="LeaveReq"><i class="fas fa-calendar-check"></i> Leave Requests</li>
+            <li id="Users"><i class="fas fa-users"></i> Users</li>
+            <li id="Notifications"><i class="fas fa-bell"></i> Notifications</li>
+            <li id="Logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+    </aside>
+
+    <div class="main">
+        <button id="menuToggle" class="primary-btn" style="width:auto; padding:8px 14px; margin-bottom:20px;">
+            ☰ Menu
+        </button>
+
+        <h1>Admin Dashboard</h1>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <span id="totalUsers">0</span>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Leave Requests</h3>
+                <span id="totalLeaves">0</span>
+            </div>
+
+            <div class="stat-card">
+                <h3>Pending Approvals</h3>
+                <span id="pendingLeaves">0</span>
+            </div>
+
+            <div class="stat-card">
+                <h3>Fully Approved</h3>
+                <span id="approvedLeaves">0</span>
+            </div>
+
+        </div>
+
+        <!-- RECENT ACTIVITY -->
+        <div class="card">
+            <h2>Recent Leave Activity</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Rahul Patil</td>
+                        <td>12 Sep – 14 Sep</td>
+                        <td><span class="status pending">Pending</span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Anita Sharma</td>
+                        <td>15 Sep – 16 Sep</td>
+                        <td><span class="status approved">Fully Approved</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        // Sidebar Navigation
+        document.getElementById("Dashboard").addEventListener("click", function () {
+            window.location.href = "admin_dashboard.html";
+        });
+        document.getElementById("LeaveReq").addEventListener("click", function () {
+            window.location.href = "AdminLeaveRequest.html";
+        });
+        document.getElementById("Users").addEventListener("click", function () {
+            window.location.href = "AdminUsers.html";
+        });
+        document.getElementById("Notifications").addEventListener("click", function () {
+            window.location.href = "Admin_Notications.html";
+        });
+        document.getElementById("Logout").addEventListener("click", function () {
+            // Clear session or token here if needed
+            window.location.href = "Login.html";
+        });
+
+
+        const menuBtn = document.getElementById("menuToggle");
+        const sidebar = document.querySelector(".sidebar");
+        const overlay = document.getElementById("overlay");
+
+        menuBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("active");
+            overlay.classList.toggle("active");
+        });
+
+        overlay.addEventListener("click", () => {
+            sidebar.classList.remove("active");
+            overlay.classList.remove("active");
+        });
+
+
+        // Load Dashboard Stats
+        document.addEventListener("DOMContentLoaded", () => {
+
+            fetch("http://127.0.0.1:5000/admin-stats")
+                .then(res => res.json())
+                .then(data => {
+
+                    document.getElementById("totalUsers").textContent = data.total_users;
+                    document.getElementById("totalLeaves").textContent = data.total_leaves;
+                    document.getElementById("pendingLeaves").textContent = data.pending;
+                    document.getElementById("approvedLeaves").textContent = data.approved;
+
+                })
+                .catch(err => console.error("Error loading stats:", err));
+
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Hostel Leave Application</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #1f2937, #0f172a);
+            color: #e5e7eb;
+            display: flex;
+            justify-content: center;
+            padding: 40px 0;
+        }
+
+        .card {
+            width: 900px;
+            background: rgba(2, 6, 23, 0.75);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 40px 50px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        h2,
+        h3,
+        h5 {
+            text-align: center;
+            margin: 4px 0;
+        }
+
+        h2 {
+            color: #22d3ee;
+        }
+
+        h3 u {
+            color: #22d3ee;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            margin: 20px 0;
+        }
+
+        .row div {
+            width: 50%;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #22d3ee;
+            color: #e5e7eb;
+            padding: 6px;
+            outline: none;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: none;
+            height: 50px;
+        }
+
+        .section {
+            margin-top: 20px;
+        }
+
+        .section p {
+            margin: 8px 0;
+        }
+
+        .subject {
+            text-align: center;
+            margin: 20px 0;
+            font-weight: 600;
+            color: #22d3ee;
+        }
+
+        .button-section {
+            display: flex;
+            justify-content: center;
+            margin-top: 35px;
+        }
+
+        button {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(34, 211, 238, 0.6);
+        }
+
+        .success {
+            text-align: center;
+            margin-top: 15px;
+            color: #22c55e;
+        }
+
+        .error {
+            text-align: center;
+            margin-top: 15px;
+            color: #ef4444;
+        }
+
+        @media(max-width:900px) {
+            .card {
+                width: 95%;
+                padding: 25px;
+            }
+
+            .row {
+                flex-direction: column;
+            }
+
+            .row div {
+                width: 100%;
+            }
+        }
+
+        /* ===== APPROVAL SECTION ===== */
+
+        .approved_section {
+            margin-top: 30px;
+        }
+
+        .approved_section h4 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #22d3ee;
+        }
+
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        /* Hide default checkbox */
+        .admin-card input {
+            display: none;
+        }
+
+        .admin-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .admin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(34, 211, 238, 0.3);
+        }
+
+        /* Card content */
+        .card-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            color: #e5e7eb;
+        }
+
+        /* Checked state */
+        .admin-card input:checked+.card-content {
+            color: #020617;
+        }
+
+        .admin-card input:checked+.card-content::before {
+            content: "✔ ";
+            font-weight: bold;
+        }
+
+        .admin-card input:checked~.card-content {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            padding: 8px;
+            border-radius: 8px;
+            color: #020617;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <form id="leaveForm">
+
+            <h3>Pimpri Chinchwad Education Trust's</h3>
+            <h2>Pimpri Chinchwad College of Engineering</h2>
+            <h5>Sector No. 26, Pradhikaran, Nigdi Pune - 411044</h5>
+            <h3><u>Hostel Leave Application</u></h3>
+
+            <div class="row">
+                <div>Student Name:
+                    <input type="text" name="student_name" required>
+                </div>
+                <div>Date:
+                    <input type="date" name="apply_date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div>Year / Course:
+                    <input type="text" name="course_year" required>
+                </div>
+                <div>Room No.:
+                    <input type="text" name="room_no" required>
+                </div>
+            </div>
+
+            <div class="section">
+                <p>To,</p>
+                <p>The Hostel Incharge,</p>
+                <p>PCCoE Boy's Hostel,</p>
+                <p>Nigdi, Pune - 44</p>
+            </div>
+
+            <p class="subject">Sub:- Leave Application</p>
+
+            <div class="section">
+                <p>Sir,</p>
+
+                <p>
+                    I may please be granted leave from
+                    <input type="date" name="from_date" required>
+                    to
+                    <input type="date" name="to_date" required>
+                </p>
+
+                <textarea name="reason" placeholder="Enter reason" required></textarea>
+
+                <p><b>Leave Address:</b></p>
+                <textarea name="leave_address" required></textarea>
+
+                <p><b>Contacts No. :</b></p>
+                <p>Self:
+                    <input type="tel" name="self_contact" required>
+                </p>
+
+                <p>Father & Mother:
+                    <input type="tel" name="parent_contact" required>
+                </p>
+
+                <p>Local Guardian:
+                    <input type="tel" name="guardian_contact">
+                </p>
+
+                <p>Coming Date:
+                    <input type="date" name="coming_date" required>
+                </p>
+
+                <div class="approved_section">
+                    <h4>Select Approving Authorities</h4>
+
+                    <div class="admin-grid">
+
+                        <label class="admin-card">
+                            <input type="checkbox" name="approval[]" value="rector@pccoe.com">
+                            <div class="card-content">
+                                <span class="admin-name">Hostel Incharge</span>
+                            </div>
+                        </label>
+
+                        <label class="admin-card">
+                            <input type="checkbox" name="approval[]" value="shivani@pccoe.com">
+                            <div class="card-content">
+                                <span class="admin-name">Ms. Shivani Pandey</span>
+                            </div>
+                        </label>
+
+                        <label class="admin-card">
+                            <input type="checkbox" name="approval[]" value="sandeep@pccoe.com">
+                            <div class="card-content">
+                                <span class="admin-name">Mr. Sandeep Patel</span>
+                            </div>
+                        </label>
+
+                        <label class="admin-card">
+                            <input type="checkbox" name="approval[]" value="rachana@pccoe.com">
+                            <div class="card-content">
+                                <span class="admin-name">Ms. Rachana Ma'am</span>
+                            </div>
+                        </label>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="button-section">
+                <button type="submit">Submit Leave</button>
+            </div>
+
+            <div id="message"></div>
+
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const form = document.querySelector("form");
+
+            form.addEventListener("submit", async function (e) {
+                e.preventDefault();
+
+                const email = localStorage.getItem("email");
+                if (!email) {
+                    alert("Please login first.");
+                    window.location.href = "login.html";
+                    return;
+                }
+
+                // 🔥 Collect selected admins
+                const selectedAdmins = [];
+                document.querySelectorAll("input[name='approval[]']:checked")
+                    .forEach(cb => selectedAdmins.push(cb.value));
+
+                if (selectedAdmins.length === 0) {
+                    alert("Please select at least one approving authority.");
+                    return;
+                }
+
+                // 🔥 Collect form values
+                const formData = {
+                    email: email,
+                    course_year: document.querySelectorAll("input[type='text']")[1].value,
+                    room_no: document.querySelectorAll("input[type='text']")[2].value,
+                    from_date: document.querySelectorAll("input[type='date']")[1].value,
+                    to_date: document.querySelectorAll("input[type='date']")[2].value,
+                    reason: document.querySelector("textarea").value,
+                    leave_address: document.querySelectorAll("textarea")[1].value,
+                    self_contact: document.querySelectorAll("input[type='tel']")[0].value,
+                    parent_contact: document.querySelectorAll("input[type='tel']")[1].value,
+                    guardian_contact: document.querySelectorAll("input[type='tel']")[2].value,
+                    coming_date: document.querySelectorAll("input[type='date']")[3].value,
+                    remark: "",
+                    selected_admins: selectedAdmins   // 🔥 IMPORTANT
+                };
+
+                try {
+                    const response = await fetch("http://127.0.0.1:5000/submit-leave", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                        alert("Leave Application Submitted Successfully!");
+                        form.reset();
+                    } else {
+                        alert(result.message || "Something went wrong");
+                    }
+
+                } catch (error) {
+                    console.error("Error:", error);
+                    alert("Server error. Please try again.");
+                }
+            });
+
+        });
+    </script>
+
+
+</body>
+
+</html>

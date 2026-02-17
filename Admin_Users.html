@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Users</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg: #0e0f13;
+            --panel: #15161c;
+            --card: #1b1d25;
+            --border: #262833;
+            --text: #e5e7eb;
+            --muted: #9ca3af;
+            --accent: #22d3ee;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #facc15;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: linear-gradient(180deg, #020617, #0f172a);
+            padding: 25px 20px;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            padding: 12px 14px;
+            margin: 10px 0;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s;
+        }
+
+        .sidebar ul li:hover,
+        .sidebar ul li.active {
+            background: linear-gradient(135deg, #22d3ee, #38bdf8);
+            color: #020617;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 260px;
+            padding: 30px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* TOP BAR */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 10px;
+        }
+
+        .search-box input {
+            background: none;
+            border: none;
+            color: var(--text);
+            outline: none;
+            margin-left: 8px;
+        }
+
+        .filter {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 10px;
+            color: var(--text);
+        }
+
+        /* TABLE */
+        .card {
+            background: var(--panel);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid var(--border);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #1f2937;
+        }
+
+        .status {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active-status {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--success);
+        }
+
+        .blocked-status {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        /* ACTION BUTTONS */
+        .actions button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .view {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--accent);
+        }
+
+        .block {
+            background: rgba(250, 204, 21, 0.15);
+            color: var(--warning);
+        }
+
+        .delete {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        @media(max-width:900px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul>
+            <li id="Dashboard"><i class="fas fa-chart-line"></i> Dashboard</li>
+            <li id="LeaveReq"><i class="fas fa-calendar-check"></i> Leave Requests</li>
+            <li class="active" id="Users"><i class="fas fa-users"></i> Users</li>
+            <li id="Notifications"><i class="fas fa-bell"></i> Notifications</li>
+            <li id="Logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <h1>Users Management</h1>
+
+        <div class="top-bar">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search user...">
+            </div>
+
+            <select class="filter">
+                <option>All Users</option>
+                <option>Active</option>
+                <option>Blocked</option>
+            </select>
+        </div>
+
+        <div class="card">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>PRN</th>
+                        <th>Course</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Rahul Patil</td>
+                        <td>rahul@gmail.com</td>
+                        <td>2203042</td>
+                        <td>Computer Engineering</td>
+                        <td><span class="status active-status">Active</span></td>
+                        <td class="actions">
+                            <button class="view">View</button>
+                            <button class="block">Block</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Anita Sharma</td>
+                        <td>anita@gmail.com</td>
+                        <td>2203055</td>
+                        <td>Information Technology</td>
+                        <td><span class="status blocked-status">Blocked</span></td>
+                        <td class="actions">
+                            <button class="view">View</button>
+                            <button class="block">Unblock</button>
+                            <button class="delete">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+    <script>
+        Dashboard = document.getElementById("Dashboard");
+        LeaveReq = document.getElementById("LeaveReq");
+        Users = document.getElementById("Users");
+        Notifications = document.getElementById("Notifications");
+        Logout = document.getElementById("Logout");
+        Dashboard.onclick = () => {
+            window.location.href = "admin_dashboard.html";
+        }
+        LeaveReq.onclick = () => {
+            window.location.href = "AdminLeaveRequest.html";
+        }
+        Users.onclick = () => {
+            window.location.href = "Admin_Users.html";
+        }
+        Notifications.onclick = () => {
+            window.location.href = "Admin_Notications.html";
+        }
+        Logout.onclick = () => {
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Info</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+            height: 100vh;
+        }
+
+        .Nav_Logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2575fc;
+            font-weight: 900;
+            border: 1px solid #2575fc;
+            padding: 5px 10px;
+        }
+
+        .Nav_Logo img {
+            margin-right: 10px;
+        }
+
+
+        /* CAROUSEL WHITE SECTION */
+
+
+        .carousel-section {
+            background: white;
+            padding: 40px 0;
+            margin-top: 10px;
+        }
+
+        /* Override bootstrap container spacing */
+        .carousel-section .container {
+            background: white;
+            padding: 0;
+            margin: 0 auto;
+        }
+
+        /* Carousel image size */
+        .carousel-item img {
+            height: 400px;
+            object-fit: fill;
+        }
+
+        .about-College {
+            padding: 40px 0;
+        }
+
+        .about-College .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .about-College .card {
+            background: white;
+            color: black;
+            margin: 20px;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .about-College .card-body {
+                padding: 20px;
+            }
+    
+            .about-College .card-title {
+                font-size: 20px;
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+    
+            .about-College .card-subtitle {
+                font-size: 16px;
+                color: #555;
+                margin-bottom: 15px;
+            }
+    
+            .about-College .card-text {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .about-College .card-link {
+                color: #2575fc;
+                text-decoration: none;
+            }
+
+            
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light px-5">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center gap-3 Nav_Logo" href="#">
+                    <img src="Login_Images/PCCOE-Logo-24.png" alt="Logo" width="80" height="60"
+                        class="d-inline-block align-text-top">
+                    PCCOE
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pricing</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Dropdown link
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="carousel-section">
+        <div class="container">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+
+                    <div class="carousel-item active">
+                        <img src="College Info/PccoeImg1.jpeg" class="d-block w-100" alt="Image 1">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg2.jpg" class="d-block w-100" alt="Image 2">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/Pccoeimg3.jpg" class="d-block w-100" alt="Image 3">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg4.jpg" class="d-block w-100" alt="Image 4">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg5.jpg" class="d-block w-100" alt="Image 5">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg6.jpeg" class="d-block w-100" alt="Image 6">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg7.jpeg" class="d-block w-100" alt="Image 7">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg8.jpg" class="d-block w-100" alt="Image 8">
+                    </div>
+
+                    <div class="carousel-item">
+                        <img src="College Info/PccoeImg9.jpg" class="d-block w-100" alt="Image 9">
+                    </div>
+
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <section class="about-College">
+        <div class="container">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">About PCCOE</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Pimpri Chinchwad College of Engineering</h6>
+                    <p class="card-text"> Pimpri Chinchwad College of Engineering (PCCOE), Pune, is one of the
+                        leading engineering institutions under Pimpri Chinchwad Education Trust (PCET).
+                        The institute is known for academic excellence, industry-oriented education,
+                        and strong placement records.</p>
+                    
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Vision</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Institutional Goal</h6>
+                    <p class="card-text">To be a leading engineering institute that produces globally competent
+                        professionals with strong ethical values, innovation skills, and leadership
+                        qualities.
+                        
+                        <p>Give students opportunities to develop leadership skills, critical thinking, and problem-solving abilities.</p>
+                    
+                    </p>
+                    
+                </div>
+            </div>
+
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Mission</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Our Commitments</h6>
+                    <p class="card-text">
+                        • Provide quality technical education<br>
+                        • Encourage research & innovation<br>
+                        • Strengthen industry collaboration<br>
+                        • Promote overall student development <br>
+                        • Give students global exposure<br>
+                        • Foster ethical values and social responsibility
+                    </p>
+                    
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Academic Programs</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">UG & PG Courses</h6>
+                    <p class="card-text">
+                        • Computer Engineering<br>
+                        • Information Technology<br>
+                        • Electronics & Telecommunication<br>
+                        • Mechanical Engineering<br>
+                        • Civil Engineering<br>
+                        • Electrical Engineering<br>
+                        • Artificial Intelligence & Data Science<br>
+                        • Master of Computer Applications (MCA)<br>
+                        • Master of Business Administration (MBA)
+                    </p>
+                    
+                </div>
+            </div>
+
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Placements</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Career Opportunities</h6>
+                    <p class="card-text"> The Training & Placement Cell at PCCOE provides excellent placement
+                    opportunities through top recruiters, industry training, and
+                    skill development programs.
+                        
+                    <p> Includes companies like TCS, Infosys, Wipro, Cognizant, Capgemini, Accenture, L&T Infotech, Tech Mahindra, IBM, and many more.</p>
+
+                </p>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
